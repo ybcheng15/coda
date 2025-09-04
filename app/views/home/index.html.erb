@@ -1,0 +1,15 @@
+<div class="max-w-md mx-auto mt-10">
+  <h1 class="text-4xl font-bold text-center text-green-600">Coda</h1>
+  <p class="mt-4 text-center text-gray-600">Track your listening habits and discover your music trends</p>
+  
+  <div class="mt-8 text-center">
+    
+    <% if logged_in? %>
+      <%= link_to "Go to Dashboard", dasboard_path, class: "bg-green-500 hover:bg_green-700 text-white font-bold py-2 px-4 rounded"%>
+    
+    <% else %>
+      <%= button_to "Login with Spotify", "/auth/spotify", method: :post, form: { "data-turbo" => "false" }, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+    <% end %>
+  
+  </div>
+</div>

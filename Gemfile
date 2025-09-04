@@ -63,3 +63,12 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "dotenv-rails", groups: [ :development, :test ]
+
+# Auth
+gem "omniauth-spotify"
+gem "omniauth-rails_csrf_protection"
+
+# Http request
+gem "httparty"
