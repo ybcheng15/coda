@@ -1,12 +1,18 @@
-<div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Welcome, <%= current_user.name %></h1>
+  <h1 class="text-4xl font-bold text-center text-green-600">Welcome, <%= @spotify_user["name"] %>!</h1>
+  <%= button_to "Logout", "/logout", method: :delete %>
 
+
+  <% if @top_artists %>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-4">Your Spotify Stats</h2>
-      <p class="text-gray-600">We'll display your stats here soon!</p>
+      <h2 class="text-xl font-semibold mb-4">Your Top Artists</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        
+        <% @top_artists['items'].each do |artist| %>
+          <div class="text-center">
+            <%= image_tag artist['images'].last['url'], class: "w-24 h-24 rounded-full mx-auto mb-2" %>
+            <p class="font-medium text-sm truncate"><%= artist['name'] %></p>
+          </div>
+        <% end %>
+      </div>
     </div>
-
-    <div class="text-center">
-        <%= button_to "Logout", logout_path, method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
-    </div>
-</div>
+  <% end %>

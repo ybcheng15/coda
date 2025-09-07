@@ -10,9 +10,12 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-  root "home#index"
+  # Root: new fn redirects to login if not logged in, otherwise to dashboard
+  root "sessions#new"
+
+  # Bug: /login goes to login page even if logged in. or leave it as is and use login as intro page
+  get "login", to: "home#index"
+  get "dashboard", to: "dashboard#show"
 
   # Auth routes
   get "/auth/:provider/callback", to: "sessions#create"
