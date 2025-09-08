@@ -11,23 +11,17 @@ class SessionsController < ApplicationController
     # OmniAuth puts all spotify data in this
     auth = request.env["omniauth.auth"]
 
-    # user = User.find_or_initialize_by(provider: auth.provider, uid: auth.uid)
-    # user.update!(
-    #  name: auth.info.name,
-    #  email: auth.info.email,
-    #  access_token: auth.credentials.token,
-    #  refresh_token: auth.credentials.refresh_token,
-    #  expires_at: Time.at(auth.credentials.expires_at)
-    # )
-    session[:spotify_user] = {
-      uid: auth.uid,
+    user = User.find_or_initialize_by(spotify_id: auth.uid)
+    user.update!(
       name: auth.info.name,
       email: auth.info.email,
-      token: auth.credentials.token,
+      access_token: auth.credentials.token,
       refresh_token: auth.credentials.refresh_token,
-      expires_at: auth.credentials.expires_at
-    }
-    redirect_to dashboard_path, notice: "Signed in as #{auth.info.name}"
+      token_expires_at: Time.at(auth.credentials.expires_at)
+    )
+
+    session[:user_id] = user.spotify_id
+    redirect_to dashboard_path, notice: "Signed in as #{user.name}"
   end
 
   def failure
@@ -35,7 +29,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:spotify_user] = nil
+    session[:user_id] = nil
     redirect_to root_path, notice: "Logged out"
   end
 end

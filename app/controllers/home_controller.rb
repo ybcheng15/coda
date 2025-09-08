@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
   def index
-    @spotify_user = session[:spotify_user]
+    if logged_in?
+      redirect_to dashboard_path
+    end
   end
 end

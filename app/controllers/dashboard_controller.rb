@@ -2,11 +2,10 @@ class DashboardController < ApplicationController
   before_action :require_login
 
   def show
-    @spotify_user = session[:spotify_user]
     # spotify API calls here
-    if @spotify_user
+    if @current_user
 
-      client = SpotifyService.new(session[:spotify_user]["token"])
+      client = @current_user.spotify_service
       @top_artists = client.top_artists(limit: 10, time_range: "short_term")
     end
   end
