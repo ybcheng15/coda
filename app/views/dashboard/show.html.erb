@@ -1,18 +1,92 @@
-  <h1 class="text-4xl font-bold text-center text-green-600">Welcome, <%= @current_user["name"] %>!</h1>
-  <%= button_to "Logout", "/logout", method: :delete %>
+<div class="flex flex-row h-screen w-full">
+  
+  <!-- Profile and playback stuff-->  
+  <div class="flex flex-1 flex-col h-full bg-gray-400 items-center justify-center p-4 ">
+    
 
-
-  <% if @top_artists %>
-    <div class="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-4">Your Top Artists</h2>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        
-        <% @top_artists['items'].each do |artist| %>
-          <div class="text-center">
-            <%= image_tag artist['images'].last['url'], class: "w-24 h-24 rounded-full mx-auto mb-2" %>
-            <p class="font-medium text-sm truncate"><%= artist['name'] %></p>
-          </div>
+    <div class="flex-col flex w-full items-center justify-center bg-green-300">
+    <!-- profile pic circle -->
+      <div class="w-50 h-50 rounded-full object-cover border-4 border-white shadow-md bg-gray-300">
+        <% if not @profile["images"].empty? %>
+          <%= image_tag @profile["images"].first["url"], class: "w-full h-full rounded-full object-cover" %>
         <% end %>
       </div>
+
+      <div class="mt-4 text-center bg-green-400">aaa</div>
     </div>
+
+  </div>
+
+  <!-- Top artists -->
+  <div class="h-full flex-1 bg-gray-500 p-4">
+
+  </div>
+
+  <!-- Top tracks -->
+  <div class="h-full flex-1 bg-gray-600 p-4">
+
+  </div>
+</div>
+
+
+
+<% if not @current_user %>
+<h1 class="text-4xl font-bold text-center text-green-600">Welcome, <%= @current_user["name"] %>!</h1>
+<div class="text-center mb-6">
+  <% if not @profile["images"].empty? %>
+    <%= image_tag @profile["images"].first["url"], class: "w-32 h-32 rounded-full mx-auto mt-4" %>
+  <% else %>
+    <h1 class="text-xl font-semibold mt-4">No Profile Image Available</h1>
   <% end %>
+</div>
+<%= button_to "Logout", "/logout", method: :delete %>
+
+<% if @playback_state %>
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Currently Playing</h2>
+    <% if @playback_state["item"] %>
+      <div class="flex items-center space-x-4">
+        <%= image_tag @playback_state["item"]["album"]["images"].last["url"], class: "w-24 h-24 rounded-full" %>
+        <div>
+          <p class="font-medium text-lg"><%= @playback_state["item"]["name"] %></p>
+          <p class="text-gray-600"><%= @playback_state["item"]["artists"].map { |artist| artist["name"] }.join(", ") %></p>
+          <p class="text-sm text-gray-500">Album: <%= @playback_state["item"]["album"]["name"] %></p>
+        </div>
+      </div>
+    <% else %>
+      <p class="text-gray-600">No track is currently playing.</p>
+    <% end %>
+  </div>
+<% end %>
+
+
+<% if @top_artists %>
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Your Top Artists</h2>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      
+      <% @top_artists['items'].each do |artist| %>
+        <div class="text-center">
+          <%= image_tag artist['images'].last['url'], class: "w-24 h-24 rounded-full mx-auto mb-2" %>
+          <p class="font-medium text-sm truncate"><%= artist['name'] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @top_tracks %>
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Your Top Tracks</h2>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <% @top_tracks['items'].each do |track| %>
+        <div class="text-center">
+          <%= image_tag track['album']['images'].last['url'], class: "w-24 h-24 rounded-full mx-auto mb-2" %>
+          <p class="font-medium text-sm truncate"><%= track['name'] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% end %>

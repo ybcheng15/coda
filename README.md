@@ -25,8 +25,7 @@ Things you may want to cover:
 
 Features to do:
 
-- database
-- token refresh
+- user info (pic, name, banner)
 - top artists/songs/genre + dropdown for term length
 - current playing
 - top artist banner

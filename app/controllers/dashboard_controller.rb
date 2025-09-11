@@ -6,7 +6,10 @@ class DashboardController < ApplicationController
     if @current_user
 
       client = @current_user.spotify_service
-      @top_artists = client.top_artists(limit: 10, time_range: "short_term")
+      @profile = client.profile
+      @playback_state = client.playback_state(@profile["country"])
+      @top_artists = client.top_artists(10, "short_term")
+      @top_tracks = client.top_tracks(10, "long_term")
     end
   end
 

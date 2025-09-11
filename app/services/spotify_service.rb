@@ -9,32 +9,54 @@ class SpotifyService
     @token = token
   end
 
-  def top_artists(limit: 10, time_range: "medium_term")
+  def profile
+    get("/me")
+  end
+
+  def playback_state(market)
+    get("/me/player?market=#{market}")
+  end
+
+  def top_artists(limit, time_range)
     get("/me/top/artists?time_range=#{time_range}&limit=#{limit}")
   end
 
-  def top_tracks(limit: 10)
-    get("me/top/tracks?limit=#{limit}")
+  def top_tracks(limit, time_range)
+    get("/me/top/tracks?time_range=#{time_range}&limit=#{limit}")
   end
 
   private
 
   def get(path)
-    uri = URI("#{BASE_URL}#{path}")
-    req = Net::HTTP::Get.new(uri)
-    req["Authorization"] = "Bearer #{@token}"
+    begin
+      url = "#{BASE_URL}#{path}"
+
+      response = HTTParty.get(url, {
+        headers: {
+          "Authorization" => "Bearer #{@token}",
+          "Content-Type" => "application/json"
+        }
+      })
+
+      if response.success?
+        Rails.logger.info "Spotify API Request to #{url} successful."
+
+        if response.body.nil? || response.body.empty?
+          Rails.logger.info "Spotify API Response body is empty."
+          nil
+        else
+          # Rails.logger.info "Spotify API Response body: #{response.body}"
+          JSON.parse(response.body)
+        end
+      else
+        Rails.logger.error "Spotify API Error: #{response.code} - #{response.body}"
+        nil
+      end
 
 
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
+    rescue HTTParty::Error, SocketError => e
+      Rails.logger.error "HTTP Error: #{e.message}"
+      nil
     end
-
-    JSON.parse(res.body)
-  end
-
-  def make_request(url)
-    response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{@token}" })
-
-    response.success? ? JSON.parse(response.body) : { "error" => response.message }
   end
 end
