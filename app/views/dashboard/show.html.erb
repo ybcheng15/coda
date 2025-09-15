@@ -34,35 +34,51 @@
 
 
 <div class="flex flex-row h-screen w-full">
-  
-  <!-- Profile and playback stuff-->  
+
+  <!-- playback stuff-->  
   <div class="flex flex-1 flex-col h-full bg-black1 items-center justify-center p-4">
+    <% if @playback_state %>
+      <h1 class="text-2xl text-white mb-4">Now Playing:</h1>
+    <% end %>
     
-    <div class="relative">
-    <!-- profile pic circle -->
-      <div class="w-75 h-75 rounded-full object-cover border-4 border-white shadow-md bg-gray-300">
-        <% if not @profile["images"].empty? %>
-          <%= image_tag @profile["images"].first["url"], class: "w-full h-full rounded-full object-cover" %>
-        <% else %>
-          <%= image_tag "default_profile.jpg", class: "w-full h-full rounded-full object-cover" %>
-        <% end %>
-      </div>
-
-      <div class="w-75 h-75 rounded-full object-cover border-4 border-white shadow-md bg-gray-300">
-      </div>
-
-
-      <div class="absolute mt-10 w-75 h-25 bg-white rounded-lg">
-        <% if @playback_state %>
-          <p class="font-medium text-sm truncate"><%= @playback_state["item"]["name"] %></p>
-          <p class="text-xs text-gray-600 truncate">
-            <%= @playback_state["item"]["artists"].map { |artist| artist["name"] }.join(", ") %>
-          </p>
-        <% else %>
-          <p class="font-medium text-sm truncate">No track is currently playing.</p>
-        <% end %>
-      </div>
+    <div class="max-w-md w-full rounded-xl overflow-hidden">
+        <!-- vinyl display -->
+        <div class="relative flex justify-center items-center p-8">
+            <div class="relative w-64 h-64 rounded-full bg-black border-8 border-gray1 shadow-xl <%= @playback_state ? 'vinyl-spin' : 'vinyl-pause' %>">
+                <!-- vinyl grooves -->
+                <div class="absolute inset-0 rounded-full flex items-center justify-center">
+                    <div class="w-full h-full rounded-full bg-gradient-to-br from-transparent via-gray-900 to-transparent opacity-20"></div>
+                </div>
+                
+                <!-- album art -->
+                <div class="absolute inset-0 rounded-full flex items-center justify-center">
+                    <div class="w-32 h-32 rounded-full overflow-hidden">
+                      <% if @playback_state %>
+                        <%= image_tag @playback_state["item"]["album"]["images"].first["url"], alt: "Album Art", class: "w-full h-full object-cover" %>
+                      <% elsif !@profile["images"].empty? %>
+                        <%= image_tag @profile["images"].first["url"], alt: "Album Art", class: "w-full h-full object-cover" %>
+                      <% else %>
+                        <%= image_tag "default_profile.jpg", alt: "Album Art", class: "w-full h-full object-cover" %>
+                      <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- song info -->
+        <div class="bg-black1 border-5 border-gray1 shadow-md shadow-gray1 p-6 rounded-xl">
+            <div class="text-white">
+                <% if @playback_state %>
+                  <h2 id="song-title" class="text-xl font-bold"><%= @playback_state["item"]["name"] %></h2>
+                  <p id="artist-name" class="text-gray-300"><%= @playback_state["item"]["artists"].map { |artist| artist["name"] }.join(", ") %></p>
+                <% else %>
+                  <h2 id="song-title" class="text-xl">No song is playing</h2>
+                  <p id="artist-name" class="text-gray-300">Play some music on Spotify!</p>
+                <% end %> 
+            </div>
+        </div>
     </div>
+
   </div>
 
   <!-- Artists section -->
