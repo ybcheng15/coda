@@ -1,0 +1,13 @@
+<div class="relative flex flex-col w-130 h-170 bg-black1 overflow-y-auto scrollbar-hidden border-2 border-gray1 shadow-md shadow-gray1 rounded-4xl">
+  <!-- top 3 artists display -->
+  <div class="flex flex-1 h-full w-full text-white text-center items-center justify-center space-x-5 p-5 rounded-t-4xl">
+    <% if artists %>
+      <%= render partial: 'dashboard/top_three_artists', locals: { artists: artists } %>
+    <% end %>
+  </div>
+
+  <!-- Full list -->
+  <% if artists %>
+    <%= render partial: 'dashboard/artist_list', locals: { artists: artists } %>
+  <% end %>
+</div>

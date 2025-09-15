@@ -1,0 +1,13 @@
+<div class="relative flex flex-col w-130 h-170 bg-black1 overflow-y-auto scrollbar-hidden border-2 border-gray1 shadow-md shadow-gray1 rounded-4xl">
+  <!-- top 3 tracks display -->
+  <div class="flex flex-1 h-full w-full text-white text-center items-center justify-center space-x-5 p-5 rounded-t-4xl">
+    <% if tracks %>
+      <%= render partial: 'dashboard/top_three_tracks', locals: { tracks: tracks } %>
+    <% end %>
+  </div>
+
+  <!-- Full list -->
+  <% if tracks %>
+    <%= render partial: 'dashboard/track_list', locals: { tracks: tracks } %>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<% tracks['items'].each_with_index do |track, index| %>
+  <div class="rounded-xl">
+    <div class="flex items-center space-x-4 p-4">
+      <div class="text-white text-xs rounded-full">
+        <%= index + 1 %>
+      </div>
+      <img src="<%= track['album']['images'].first['url'] %>"
+          alt="Track"
+          class="w-20 h-20 border-0 shadow-md shadow-gray1">
+      <div class="text-white">
+        <h2 class="text-xl"><%= track['name'] %></h2>
+        <p class="text-xs opacity-50"><%= track['artists'].map { |artist| artist['name'] }.join(', ') %></p>
+      </div>
+    </div>
+  </div>
+<% end %>
