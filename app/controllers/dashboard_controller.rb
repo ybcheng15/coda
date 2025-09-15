@@ -8,8 +8,9 @@ class DashboardController < ApplicationController
       client = @current_user.spotify_service
       @profile = client.profile
       @playback_state = client.playback_state(@profile["country"])
-      @top_artists = client.top_artists(10, "short_term")
-      @top_tracks = client.top_tracks(10, "long_term")
+      # puts "Playback state: #{@playback_state["item"]["name"]}"
+      @top_artists = client.top_artists(20, "short_term")
+      @top_tracks = client.top_tracks(20, "short_term")
     end
   end
 
