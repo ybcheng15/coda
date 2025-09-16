@@ -44,14 +44,18 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=password
 ```
 
-3. Build and start the containers:
+3. Ensure `entrypoint.sh` has LF line breaks
+  - Check bottom right corner of VSCode
+  - Change to LF and save
+
+4. Build and start the containers:
 
 ```bash
 docker compose build
-docker compose up -d
+docker compose up
 ```
 
-4. Setup database
+5. If running for first time, setup database
 
 ```bash
 docker compose run web rails db:create db:migrate
