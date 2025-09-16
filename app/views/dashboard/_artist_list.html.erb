@@ -1,12 +1,14 @@
 <% artists['items'].each_with_index do |artist, index| %>
   <div class="rounded-xl">
     <div class="flex items-center space-x-4 p-4">
-      <div class="text-white text-xs rounded-full">
+      <div class="text-white text-xs w-5 text-center rounded-full">
         <%= index + 1 %>
       </div>
-      <img src="<%= artist['images'].first['url'] %>"
-          alt="Artist"
-          class="w-20 h-20 rounded-full border-0 shadow-lg shadow-gray1">
+      <% if artist['images'].any? %>
+        <%= image_tag artist['images'].first['url'], alt: "Artist", class: "w-20 h-20 rounded-full border-0 shadow-lg shadow-gray1" %>
+      <% else %>
+        <%= image_tag "default_profile.jpg", class: "w-20 h-20 border-0 rounded-full shadow-lg shadow-gray1" %>
+      <% end %>
       <div class="text-gray-100">
         <h2 class="text-xl"><%= artist['name'] %></h2>
         <p class="text-xs opacity-50">Genre: <%= artist['genres'].join(', ') %></p>
