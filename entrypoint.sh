@@ -14,4 +14,7 @@ rm -f /app/tmp/pids/server.pid
 # create and migrate
 bundle exec rails db:create db:migrate
 
+# Compile assets
+bundle exec rails assets:precompile
+
 exec "$@"
