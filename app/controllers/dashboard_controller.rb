@@ -11,15 +11,15 @@ class DashboardController < ApplicationController
       # puts "Playback state: #{@playback_state["item"]["name"]}"
 
       @top_artists = {
-        short_term: client.top_artists(50, "short_term"),
-        medium_term: client.top_artists(50, "medium_term"),
-        long_term: client.top_artists(50, "long_term")
+        short_term: UserTopCache.fetch_or_cache(@current_user, "artists", "short_term"),
+        medium_term: UserTopCache.fetch_or_cache(@current_user, "artists", "medium_term"),
+        long_term: UserTopCache.fetch_or_cache(@current_user, "artists", "long_term")
       }
 
       @top_tracks = {
-        short_term: client.top_tracks(50, "short_term"),
-        medium_term: client.top_tracks(50, "medium_term"),
-        long_term: client.top_tracks(50, "long_term")
+        short_term: UserTopCache.fetch_or_cache(@current_user, "tracks", "short_term"),
+        medium_term: UserTopCache.fetch_or_cache(@current_user, "tracks", "medium_term"),
+        long_term: UserTopCache.fetch_or_cache(@current_user, "tracks", "long_term")
       }
     end
   end

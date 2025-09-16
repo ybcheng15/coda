@@ -33,8 +33,34 @@
     to { transform: rotate(360deg); }
 }
 .vinyl-spin {
-    animation: spin 2s linear infinite;
+    animation: spin 5s linear infinite;
 }
+
 .vinyl-pause {
     animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 10s linear infinite;
+}
+.marquee-content:hover {
+  animation-play-state: paused;
 }

@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_04_005640) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_16_014954) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "user_top_caches", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "cache_type"
+    t.string "time_range"
+    t.jsonb "data"
+    t.datetime "last_updated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_top_caches_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "spotify_id"
     t.string "name"
@@ -21,4 +35,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_04_005640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "user_top_caches", "users"
 end
