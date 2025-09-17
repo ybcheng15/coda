@@ -10,12 +10,8 @@ development:
   database: coda_development
 
 test:
-  adapter: postgresql
+  <<: *default
   database: coda_test
-  username: postgres
-  password: password
-  host: 127.0.0.1
-  port: 5432
 
 production:
   <<: *default
