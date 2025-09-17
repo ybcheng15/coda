@@ -1,6 +1,7 @@
 # Coda
 
 A Spotify Dashboard that visualizes your listening habits and top tracks/artists.
+<img width="1910" height="949" alt="Image" src="https://github.com/user-attachments/assets/6f3a2a51-d2eb-4b6e-a4ee-c7005a1408ba" />
 
 ## Prerequisites
 
